@@ -1,0 +1,54 @@
+Question 1                                                                                                                                                                                         
+You are given 2 arrays representing integer locations of stores and houses (each location in this problem is one-dimensional). For each house, find the
+store closest to it.
+Return an integer array result where result[i] should denote the location of the store closest to the i-th house. If many stores are equidistant from a 
+particular house, choose the store with the smallest numerical location. Note that there may be multiple stores and houses at the same location.
+
+Example 1:
+
+Input: houses = [5, 10, 17], stores = [1, 5, 20, 11, 16]
+Output: [5, 11, 16]
+Explanation: 
+The closest store to the house at location 5 in the store at the same location.
+The closest store to the house at location 10 is the store at location 11.
+The closest store to the house at location 17 is the store at location 16.
+Example 2:
+
+Input: houses = [2, 4, 2], stores = [5, 1, 2, 3]
+Output: [2, 3, 2]
+Example 3:
+
+Input: houses = [4, 8, 1, 1], stores = [5, 3, 1, 2, 6]
+Output: [3, 6, 1, 1]
+
+Solution:
+
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int houses[10],stores[10],h,s;
+    cin>>h>>s;
+    for(int i=0;i<h;i++)
+    cin>>houses[i];
+    for(int i=0;i<s;i++)
+    cin>>stores[i];
+    vector<int> v;
+    sort(stores,stores+s);
+    for(int i=0;i<h;i++)
+    {
+        int *ptr=lower_bound(stores,stores+s,houses[i]);
+        if(ptr>stores+s)
+        v.push_back(stores[s-1]);
+        else if(ptr-1<stores)
+        v.push_back(*ptr);
+        if(ptr-1>=stores){
+            if(houses[i]-(*(ptr-1))>(*ptr)-houses[i])
+            v.push_back(*ptr);
+            else v.push_back(*(ptr-1));
+        }
+    }
+    for(int i=0;i<h;i++)
+    cout<<v[i]<<" ";
+    return 0;
+}
